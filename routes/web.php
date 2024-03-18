@@ -39,5 +39,9 @@ Route::prefix('prototype')->name('prototype.')->group(function () {
     route::get('/dashboard', function () {
        return Inertia::render('Prototype/Dashboard'); 
     })->name('dashboard');
+
+     route::get('/subcribtionPlan', function () {
+       return Inertia::render('Prototype/SubcribtionPlan'); 
+    })->name('subcribtionPlan');
 });
 require __DIR__.'/auth.php';
