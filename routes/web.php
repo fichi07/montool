@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\User\DashcboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,9 @@ use Inertia\Inertia;
 
 Route::redirect('/', '/login');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::middleware(['auth','role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function(){
+Route::get('/',[DashcboardController::class,'index'])->name('index');
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
