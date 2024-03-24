@@ -52,9 +52,9 @@ export default function SubcribtionCard({
                     <div>
                         <div className="text-sm mb-2">{name}</div>
                         <div className="text-[28px] font-bold">
-                            IDR {price.toLocaleString}
+                            IDR {price.toLocaleString()}
                         </div>
-                        <p className="text-[#767676] text-xs font-light">
+                        <p className="text-gray-1 text-xs font-light">
                             /{durationInMonth} months
                         </p>
                     </div>

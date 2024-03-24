@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\User\DashcboardController;
 use App\Http\Controllers\User\MovieController;
+use App\Http\Controllers\User\SubcribtionPlanController;
+use App\Models\SubcribtionPlan;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,9 @@ Route::redirect('/', '/login');
 Route::middleware(['auth','role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function(){
 Route::get('/',[DashcboardController::class,'index'])->name('index');
 
- Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show');
+Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show');
+Route::get('subcribtion-plan', [SubcribtionPlanController::class, 'index'])->name('subcribtionPlan.index');
+Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [SubcribtionPlanController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
