@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\User\DashcboardController;
+use App\Http\Controllers\User\MovieController;
+use App\Http\Controllers\User\SubcribtionPlanController;
+use App\Models\SubcribtionPlan;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +20,15 @@ use Inertia\Inertia;
 |
 */
 
-Route::redirect('/', '/prototype/login');
+Route::redirect('/', '/login');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth','role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function(){
+Route::get('/',[DashcboardController::class,'index'])->name('index');
 
+Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show')->middleware('checkUserSubcribtion:true');
+Route::get('subcribtion-plan', [SubcribtionPlanController::class, 'index'])->name('subcribtionPlan.index')->middleware('checkUserSubcribtion:false');
+Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [SubcribtionPlanController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe')->middleware('checkUserSubcribtion:false');
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

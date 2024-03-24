@@ -1,13 +1,12 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { propertyOf } from "lodash";
+import React from "react";
 
 PrimaryButton.propTypes = {
     type: PropTypes.oneOf(["button", "submit", "reset"]),
     variant: PropTypes.oneOf([
         "primary",
-        "danger",
         "warning",
+        "danger",
         "light-outline",
         "white-outline",
     ]),
@@ -15,6 +14,7 @@ PrimaryButton.propTypes = {
     processing: PropTypes.bool,
     children: PropTypes.node,
 };
+
 export default function PrimaryButton({
     type = "submit",
     variant = "primary",
