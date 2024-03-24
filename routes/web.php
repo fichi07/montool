@@ -25,9 +25,9 @@ Route::redirect('/', '/login');
 Route::middleware(['auth','role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function(){
 Route::get('/',[DashcboardController::class,'index'])->name('index');
 
-Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show');
-Route::get('subcribtion-plan', [SubcribtionPlanController::class, 'index'])->name('subcribtionPlan.index');
-Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [SubcribtionPlanController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe');
+Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show')->middleware('checkUserSubcribtion:true');
+Route::get('subcribtion-plan', [SubcribtionPlanController::class, 'index'])->name('subcribtionPlan.index')->middleware('checkUserSubcribtion:false');
+Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [SubcribtionPlanController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe')->middleware('checkUserSubcribtion:false');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
