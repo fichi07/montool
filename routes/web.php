@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\User\DashcboardController;
 use App\Http\Controllers\User\MovieController;
-use App\Http\Controllers\User\SubcribtionPlanController;
-use App\Models\SubcribtionPlan;
+use App\Http\Controllers\User\SubcribtionPlanController as  UserSubcriptionPlansController;
+use App\Http\Controllers\Admin\MovieController as AdminMovieController; 
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,16 @@ Route::middleware(['auth','role:user'])->prefix('dashboard')->name('user.dashboa
 Route::get('/',[DashcboardController::class,'index'])->name('index');
 
 Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show')->middleware('checkUserSubcribtion:true');
-Route::get('subcribtion-plan', [SubcribtionPlanController::class, 'index'])->name('subcribtionPlan.index')->middleware('checkUserSubcribtion:false');
-Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [SubcribtionPlanController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe')->middleware('checkUserSubcribtion:false');
+Route::get('subcribtion-plan', [UserSubcriptionPlansController::class, 'index'])->name('subcribtionPlan.index')->middleware('checkUserSubcribtion:false');
+Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [UserSubcriptionPlansController::class, 'userSubcribe'])->name('subcribtionPlan.userSubcribe')->middleware('checkUserSubcribtion:false');
 });
+
+Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.dashboard.')->group(function(){
+    Route::put('movie/{movie}/restore', [AdminMovieController::class,'restore'])->name('movie.restore');
+    Route::resource('movie', AdminMovieController::class);
+});
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
