@@ -32,6 +32,7 @@ Route::post('subcribtion-plan/{subcribtionPlan}/user-subcribe', [UserSubcription
 });
 
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.dashboard.')->group(function(){
+    Route::put('movie/{movie}/restore', [AdminMovieController::class,'restore'])->name('movie.restore');
     Route::resource('movie', AdminMovieController::class);
 });
 
