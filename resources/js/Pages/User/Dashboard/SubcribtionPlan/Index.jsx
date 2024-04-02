@@ -1,17 +1,48 @@
 import Authenticated from "@/Layouts/Authenticated/Index";
 import SubcribtionCard from "@/Components/SubcribtionCard";
-import { router } from "@inertiajs/react";
+import { Inertia } from "@inertiajs/inertia";
+import { Head } from "@inertiajs/inertia-react";
 
-export default function SubcribtionPlan({ auth, subcribtionPlans }) {
+export default function SubcribtionPlan({ auth, subcribtionPlans, env }) {
     const selectSubcribtion = (id) => {
-        router.post(
+        Inertia.post(
             route("user.dashboard.subcribtionPlan.userSubcribe", {
                 subcribtionPlan: id,
-            })
+            }),
+            {},
+            {
+                only: ["userSubcribtion"],
+                onSuccess: ({ props }) => {
+                    onSnapMidtrans(props.userSubcribtion);
+                },
+            }
         );
+    };
+
+    const onSnapMidtrans = (userSubcribtion) => {
+        snap.pay(userSubcribtion.snap_token, {
+            // Optional
+            onSuccess: function (result) {
+                Inertia.visit(route("user.dashboard.index"));
+            },
+            // Optional
+            onPending: function (result) {
+                console.log(result);
+            },
+            // Optional
+            onError: function (result) {
+                console.log(result);
+            },
+        });
     };
     return (
         <Authenticated auth={auth}>
+            <Head title="Subcribtion Plan">
+                <script
+                    src="https://app.sandbox.midtrans.com/snap/snap.js"
+                    data-client-key={env.MIDTRANS_CLIENTKEY}
+                ></script>
+            </Head>
             <div className="py-20 flex flex-col items-center">
                 <div className="text-black font-semibold text-[26px] mb-3">
                     Pricing for Everyone
@@ -24,7 +55,6 @@ export default function SubcribtionPlan({ auth, subcribtionPlans }) {
                 <div className="flex justify-center gap-10 mt-[70px]">
                     {subcribtionPlans.map((subcribtionPlan) => (
                         <SubcribtionCard
-                            key={subcribtionPlan.id}
                             name={subcribtionPlan.name}
                             price={subcribtionPlan.price}
                             durationInMonth={
@@ -32,7 +62,8 @@ export default function SubcribtionPlan({ auth, subcribtionPlans }) {
                             }
                             features={JSON.parse(subcribtionPlan.features)}
                             isPremium={subcribtionPlan.name == "Premium"}
-                            onSelectSubribtion={() =>
+                            key={subcribtionPlan.id}
+                            onSelectSubcribtion={() =>
                                 selectSubcribtion(subcribtionPlan.id)
                             }
                         />

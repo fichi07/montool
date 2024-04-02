@@ -17,7 +17,7 @@ class SubcribtionPlanTableSeeder extends Seeder
      */
     public function run()
     {
-         $subscriptionPlans = [
+         $subcribtionPlans = [
             [
                 'name' => 'Basic',
                 'price' => '200000',
@@ -32,6 +32,6 @@ class SubcribtionPlanTableSeeder extends Seeder
             ],
         ];
 
-       SubcribtionPlan::insert($subscriptionPlans);//
+       SubcribtionPlan::insert($subcribtionPlans);//
     }
 }
