@@ -6,7 +6,7 @@ export default function SubcribtionCard({
     durationInMonth,
     features,
     isPremium,
-    onSelectSubribtion,
+    onSelectSubcribtion,
 }) {
     return (
         <>
@@ -35,7 +35,7 @@ export default function SubcribtionCard({
                         ))}
                     </div>
                     {/* Bottom: CTA Button */}
-                    <div onClick={onSelectSubribtion}>
+                    <div onClick={onSelectSubcribtion}>
                         <PrimaryButton type="button" variant="white-outline">
                             <span className="text-base">Start {name}</span>
                         </PrimaryButton>
@@ -93,7 +93,7 @@ export default function SubcribtionCard({
                         ))}
                     </div>
 
-                    <div onClick={onSelectSubribtion}>
+                    <div onClick={onSelectSubcribtion}>
                         <PrimaryButton type="button">
                             <span className="text-base font-semibold">
                                 Subscribe Now

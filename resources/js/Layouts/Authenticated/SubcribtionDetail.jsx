@@ -8,6 +8,8 @@ export default function SubcribtionDetail({
     const loadingProgress = () => {
         const progress = remainingDays / activeDays;
         if (progress < 0.25) {
+            return "w-1/12";
+        } else if (progress >= 0.25) {
             return "w-3/12";
         } else if (progress < 0.5) {
             return "w-6/12";
